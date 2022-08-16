@@ -1,16 +1,16 @@
 # API_YAMDB
 - [Введение](#введение)
-- [Установка](#install)
-- [Загрузка данных](#upload)
+- [Установка](#установка)
+- [Загрузка данных](#загрузка-данных)
 - [Endpoints](#endpoints)
-  - [auth](#endpoint-auth)
-  - [categories](#endpoint-categories)
-  - [genres](#endpoint-genres)
-  - [titles](#endpoint-titles)
-  - [reviews](#endpoint-reviews)
-  - [comments](#endpoint-comments)
-  - [users](#endpoint-users)
-- [О разработчиках](#about-authors)
+  - [auth](#auth)
+  - [categories](#categories)
+  - [genres](#genres)
+  - [titles](#titles)
+  - [reviews](#reviews)
+  - [comments](#comments)
+  - [users](#users)
+- [О разработчиках](#о-разработчиках)
 
 ## Введение
 Проект YaMDb собирает отзывы (Review) пользователей на произведения (Titles). Произведения делятся на категории: «Книги», «Фильмы», «Музыка». Список категорий (Category) может быть расширен администратором (например, можно добавить категорию «Изобразительное искусство» или «Ювелирка»).
@@ -63,16 +63,14 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 
-
-
 ## Загрузка данных
 В репозитории по пути [/static/data/](/tree/feature/auth/api_yamdb/static/data) находятся примеры csv-файлов c тестовыми данными для используемых баз.
 Можно загрузить тестовые данные в проект:
 ```
 python3 manage.py <base_name> <file_name>
 ```
-Где ```<base_name>``` принимает одно из значений ```user|category|genre|title|review|comment|genretitle```
-Рекомендуемый порядок загрузки данных:
+Где ```<base_name>``` принимает одно из значений ```user|category|genre|title|review|comment|genretitle```.
+Рекомендуемый порядок загрузки данных (некоторые базы могут ссылаться на другие):
 ```
 1. user
 2. category
@@ -81,4 +79,40 @@ python3 manage.py <base_name> <file_name>
 5. review
 6. comment
 7. genretitle
+```
+
+## Endpoints
+Для удобства описания и масштабирования протокол, хост и порт приложения опущены, по умолчанию это ```http://localhost:8000```. Все "эндпойнты" приложения начинаются с ```/api/v1/```. 
+Подробную информацию о них можно посмотреть на странице ```/redoc/```
+
+### auth
+Запросы связанные с регистрацией и авторизацией начинаются ```/auth```
+```
+/auth/signup/
+```
+Предназначен для регистрации новых пользователей, входные данные:
+```
+{
+  "email": "string",
+  "username": "string"
+}
+```
+При удачном выполнении запроса создаётся пользователь в базе данных и на ```email``` отправляется письмо с кодом подтверждения
+
+```
+/auth/token/
+```
+Предназначен для получения JWT-токена, который будет использоваться при последующей авторизации, входные данные:
+```
+Copy
+{
+"username": "string",
+"confirmation_code": "string"
+}
+```
+При удачном выполнении запроса выдаётся ответ в формате:
+```
+{
+"token": "string"
+}
 ```
