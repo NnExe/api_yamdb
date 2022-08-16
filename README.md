@@ -67,7 +67,7 @@ python3 manage.py runserver
 В репозитории по пути [/static/data/](/tree/feature/auth/api_yamdb/static/data) находятся примеры csv-файлов c тестовыми данными для используемых баз.
 Можно загрузить тестовые данные в проект:
 ```
-python3 manage.py <base_name> <file_name>
+python3 manage.py importcsv <base_name> <file_name>
 ```
 Где ```<base_name>``` принимает одно из значений ```user|category|genre|title|review|comment|genretitle```.
 Рекомендуемый порядок загрузки данных (некоторые базы могут ссылаться на другие):
